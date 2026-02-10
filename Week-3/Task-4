@@ -1,0 +1,55 @@
+import java.util.*;
+
+class Student {
+    int id;
+    String fname;
+    double cgpa;
+
+    Student(int id, String fname, double cgpa) {
+        this.id = id;
+        this.fname = fname;
+        this.cgpa = cgpa;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        List<Student> students = new ArrayList<Student>();
+
+        for (int i = 0; i < n; i++) {
+            int id = sc.nextInt();
+            String fname = sc.next();
+            double cgpa = sc.nextDouble();
+
+            students.add(new Student(id, fname, cgpa));
+        }
+
+        Collections.sort(students, new Comparator<Student>() {
+            public int compare(Student s1, Student s2) {
+
+                // CGPA descending
+                if (Double.compare(s2.cgpa, s1.cgpa) != 0) {
+                    return Double.compare(s2.cgpa, s1.cgpa);
+                }
+
+                // First name ascending
+                if (!s1.fname.equals(s2.fname)) {
+                    return s1.fname.compareTo(s2.fname);
+                }
+
+                // ID ascending
+                return s1.id - s2.id;
+            }
+        });
+
+        for (Student s : students) {
+            System.out.println(s.fname);
+        }
+
+        sc.close();
+    }
+}
