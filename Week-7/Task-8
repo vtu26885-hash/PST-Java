@@ -1,0 +1,27 @@
+import java.io.*;
+import java.util.*;
+
+// Class Arithmetic with the add method
+class Arithmetic {
+    int add(int a, int b) {
+        return a + b;
+    }
+}
+
+// Class Adder inheriting from Arithmetic
+class Adder extends Arithmetic {
+    // This class is empty but inherits the add(int, int) method
+}
+
+public class Solution {
+    public static void main(String []args) {
+        // Create a new Adder object
+        Adder a = new Adder();
+        
+        // Print the name of the superclass
+        System.out.println("My superclass is: " + a.getClass().getSuperclass().getName());	
+        
+        // Print the result of the inherited add method
+        System.out.print(a.add(10, 32) + " " + a.add(10, 3) + " " + a.add(10, 10) + "\n");
+     }
+}
