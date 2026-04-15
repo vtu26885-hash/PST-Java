@@ -1,0 +1,85 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
+
+// Base class
+class Vehicle {
+    protected int vehicleId;
+    protected String modelName;
+    protected double baseRent;
+
+    public Vehicle(int vehicleId, String modelName, double baseRent) {
+        this.vehicleId = vehicleId;
+        this.modelName = modelName;
+        this.baseRent = baseRent;
+    }
+
+    public double calculateTotalRent() {
+        return baseRent;
+    }
+
+    public void displayDetails() {
+        System.out.printf("Vehicle ID: %d, Model: %s, Total Rent: %.1f%n", 
+                          vehicleId, modelName, calculateTotalRent());
+    }
+}
+
+// Subclass for Cars
+class Car extends Vehicle {
+    private int seats;
+
+    public Car(int vehicleId, String modelName, double baseRent, int seats) {
+        super(vehicleId, modelName, baseRent);
+        this.seats = seats;
+    }
+
+    @Override
+    public double calculateTotalRent() {
+        return baseRent + (seats * 100);
+    }
+}
+
+// Subclass for Bikes
+class Bike extends Vehicle {
+    private int engineCapacity;
+
+    public Bike(int vehicleId, String modelName, double baseRent, int engineCapacity) {
+        super(vehicleId, modelName, baseRent);
+        this.engineCapacity = engineCapacity;
+    }
+
+    @Override
+    public double calculateTotalRent() {
+        return baseRent + (engineCapacity * 2);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        List<Vehicle> inventory = new ArrayList<>();
+
+        int n = sc.nextInt();
+
+        for (int i = 0; i < n; i++) {
+            String type = sc.next();
+            int id = sc.nextInt();
+            String name = sc.next();
+            double base = sc.nextDouble();
+
+            if (type.equalsIgnoreCase("C")) {
+                int seats = sc.nextInt();
+                inventory.add(new Car(id, name, base, seats));
+            } else if (type.equalsIgnoreCase("B")) {
+                int cc = sc.nextInt();
+                inventory.add(new Bike(id, name, base, cc));
+            }
+        }
+
+        for (Vehicle v : inventory) {
+            v.displayDetails();
+        }
+        
+        sc.close();
+    }
+}
