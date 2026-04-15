@@ -1,0 +1,57 @@
+port java.io.*;
+import java.util.*;
+
+class UserMainCode {
+
+    public String identifyPossibleWords(String input1, String input2) {
+        // Step 1: Split the candidate words by the colon delimiter
+        String[] candidates = input2.split(":");
+        StringBuilder result = new StringBuilder();
+        
+        // Convert the pattern to uppercase for easier comparison
+        String pattern = input1.toUpperCase();
+        
+        for (String word : candidates) {
+            // Requirement: Comparison is case-insensitive
+            String upperWord = word.toUpperCase();
+            
+            // Check if the word matches the pattern
+            if (isMatch(pattern, upperWord)) {
+                if (result.length() > 0) {
+                    result.append(":");
+                }
+                result.append(upperWord);
+            }
+        }
+        
+        // Step 2: Handle the case where no words were found
+        if (result.length() == 0) {
+            return "ERROR-009";
+        }
+        
+        return result.toString();
+    }
+
+    private boolean isMatch(String pattern, String word) {
+        // Rule 1: Words must be of the same length
+        if (pattern.length() != word.length()) {
+            return false;
+        }
+        
+        // Rule 2: All characters must match exactly except for the underscore '_'
+        for (int i = 0; i < pattern.length(); i++) {
+            char pChar = pattern.charAt(i);
+            char wChar = word.charAt(i);
+            
+            if (pChar == '_') {
+                continue; // Underscore matches any single character
+            }
+            
+            if (pChar != wChar) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+}
