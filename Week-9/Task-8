@@ -1,0 +1,46 @@
+mport java.io.*;
+import java.util.*;
+
+class UserMainCode {
+
+    int MostFrequentDigit(int input1, int input2, int input3, int input4) {
+        // Array to store counts of digits 0 through 9
+        int[] counts = new int[10];
+        
+        // Put all inputs into an array to iterate easily
+        int[] inputs = {input1, input2, input3, input4};
+        
+        for (int num : inputs) {
+            // Handle 0 specifically because the while loop won't catch it
+            if (num == 0) {
+                counts[0]++;
+                continue;
+            }
+            
+            // Handle negative numbers if any (take absolute value)
+            num = Math.abs(num);
+            
+            // Extract each digit using modulo and division
+            while (num > 0) {
+                int digit = num % 10;
+                counts[digit]++;
+                num /= 10;
+            }
+        }
+        
+        int mostFrequentDigit = 0;
+        int maxCount = -1;
+        
+        // Find the digit with the highest frequency
+        // We iterate from 0 to 9. 
+        // If counts are equal, the rule says return the higher digit.
+        for (int i = 0; i <= 9; i++) {
+            if (counts[i] >= maxCount) {
+                maxCount = counts[i];
+                mostFrequentDigit = i;
+            }
+        }
+        
+        return mostFrequentDigit;
+    }
+}
