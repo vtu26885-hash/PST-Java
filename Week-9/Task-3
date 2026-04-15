@@ -1,0 +1,70 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
+
+// Base class
+class Payment {
+    public String processPayment(double amount) {
+        return "Processed generic payment: Total Amount = " + String.format("%.2f", amount);
+    }
+}
+
+// Subclass for Credit Card (2% fee)
+class CreditCardPayment extends Payment {
+    @Override
+    public String processPayment(double amount) {
+        double total = amount + (amount * 0.02);
+        return "Processed CreditCard payment: Total Amount = " + String.format("%.2f", total);
+    }
+}
+
+// Subclass for PayPal ($1.50 flat fee)
+class PayPalPayment extends Payment {
+    @Override
+    public String processPayment(double amount) {
+        double total = amount + 1.50;
+        return "Processed PayPal payment: Total Amount = " + String.format("%.2f", total);
+    }
+}
+
+// Subclass for UPI (No fee)
+class UPIPayment extends Payment {
+    @Override
+    public String processPayment(double amount) {
+        return "Processed UPI payment: Total Amount = " + String.format("%.2f", amount);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        List<Payment> payments = new ArrayList<>();
+
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+
+        for (int i = 0; i < n; i++) {
+            String type = sc.next().toUpperCase();
+            double amount = sc.nextDouble();
+
+            // Factory-style logic to instantiate the correct subclass
+            switch (type) {
+                case "C":
+                    payments.add(new CreditCardPayment());
+                    break;
+                case "P":
+                    payments.add(new PayPalPayment());
+                    break;
+                case "U":
+                    payments.add(new UPIPayment());
+                    break;
+            }
+            
+            // Polymorphic call: the list only knows it holds 'Payment' objects,
+            // but it calls the specific subclass method at runtime.
+            System.out.println(payments.get(i).processPayment(amount));
+        }
+
+        sc.close();
+    }
+}
