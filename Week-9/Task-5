@@ -1,0 +1,62 @@
+import java.util.Scanner;
+
+// Custom Exception for stock issues
+class InsufficientStockException extends Exception {
+    public InsufficientStockException(String message) {
+        super(message);
+    }
+}
+
+class Order {
+    private int orderId;
+    private String productName;
+    private int quantity;
+    private int availableStock;
+
+    public Order(int orderId, String productName, int quantity, int availableStock) {
+        this.orderId = orderId;
+        this.productName = productName;
+        this.quantity = quantity;
+        this.availableStock = availableStock;
+    }
+
+    // Method that throws the exception if logic fails
+    public void process() throws InsufficientStockException {
+        if (quantity > availableStock) {
+            throw new InsufficientStockException("Insufficient stock");
+        }
+        System.out.println("Order " + orderId + " processed successfully");
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+
+        for (int i = 0; i < n; i++) {
+            int id = sc.nextInt();
+            String name = sc.next();
+            int qty = sc.nextInt();
+            int stock = sc.nextInt();
+
+            Order currentOrder = new Order(id, name, qty, stock);
+
+            // Using try-catch inside the loop to ensure 
+            // the program continues after a failure.
+            try {
+                currentOrder.process();
+            } catch (InsufficientStockException e) {
+                System.out.println("Order " + currentOrder.getOrderId() + " failed: " + e.getMessage());
+            }
+        }
+
+        sc.close();
+    }
+}
